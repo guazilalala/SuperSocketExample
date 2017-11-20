@@ -1,0 +1,96 @@
+﻿<UserControl
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+        xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+        xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
+        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+        xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"   
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"  
+        x:Class="SuperSocket.View.ServerView"
+        mc:Ignorable="d"
+        d:DesignHeight="768" d:DesignWidth="1024">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <dxr:RibbonControl Grid.Row="0" RibbonStyle="Office2010">
+            <dxr:RibbonDefaultPageCategory>
+                <dxr:RibbonPage Caption="首页">
+                    <dxr:RibbonPageGroup Caption="" >
+                        <dxb:BarButtonItem x:Name="bbiStartServer" Content="启动" LargeGlyph="{dx:DXImage Image=Play_32x32.png}" Glyph="{dx:DXImage Image=Play_16x16.png}" Command="{Binding StartServer}"
+                                           IsEnabled="{Binding StartButtonEnable}"/>
+                        <dxb:BarButtonItem x:Name="bbiStopServer" Content="停止" LargeGlyph="{dx:DXImage Image=Stop_32x32.png}" Glyph="{dx:DXImage Image=Stop_16x16.png}" Command="{Binding StopServer}"
+                                           IsEnabled="{Binding StopButtonEnable}"/>
+                    </dxr:RibbonPageGroup>
+                </dxr:RibbonPage>
+            </dxr:RibbonDefaultPageCategory>
+        </dxr:RibbonControl>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="200"/>
+                <RowDefinition Height="250"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <GroupBox Header="服务列表" Grid.Row="0" Margin="6">
+                <dxg:GridControl AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True" 
+                                 ItemsSource="{Binding ServerList}"
+                                 SelectedItem="{Binding SelectedServerInfo}" IsFilterEnabled="False"
+                                 >
+                    <dxg:GridControl.View>
+                        <dxg:TableView x:Name="serverInfoList"  AllowPerPixelScrolling="True"  ShowGroupPanel="False" AllowEditing="False" AllowFilterEditor="False" AllowBestFit="True" AllowColumnFiltering="False" AutoWidth="False"/>
+                    </dxg:GridControl.View>
+                    <dxg:GridColumn FieldName="Name" Header="服务名称" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+                    <dxg:GridColumn FieldName="IPAddress" Header="IP地址" ReadOnly="True"/>
+                    <dxg:GridColumn FieldName="ListenerPort" Header="监听端口" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="60"/>
+                    <dxg:GridColumn FieldName="State" Header="状态" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="50">
+                        <dxg:GridColumn.EditSettings>
+                            <dxg:LookUpEditSettings x:Name="lueServerStateName" DisplayMember="StateName" ItemsSource="{Binding ServerStateNameList}" ValueMember="StateCode">
+                            </dxg:LookUpEditSettings>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn FieldName="Connections" Header="客户端数量" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="80"/>
+                    <dxg:GridColumn FieldName="Description" Header="描述" HorizontalHeaderContentAlignment="Center" ShowInColumnChooser="True" ReadOnly="True" Width="*"/>
+                </dxg:GridControl>
+            </GroupBox>
+            <GroupBox Header="消息列表" Grid.Row="2" Margin="6">
+                <dxg:GridControl x:Name="recMsgGc" AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True" ItemsSource="{Binding RecMsgDateSource}" IsFilterEnabled="False">
+                    <dxg:GridControl.View>
+                        <dxg:TableView x:Name="recMsgTv" AllowPerPixelScrolling="True" ShowGroupPanel="False" AllowEditing="False" AllowFilterEditor="False" AutoScrollOnSorting="False" AllowSorting="False" BestFitMode="Default" AllowColumnFiltering="False" BestFitArea="All" AutoWidth="False"/>
+                    </dxg:GridControl.View>
+                    <dxg:GridColumn FieldName="MsgTime" Header="时间" Width="130" HorizontalHeaderContentAlignment="Center" UnboundType="Bound" BestFitArea="None" ReadOnly="True" >
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:DateEditSettings DisplayFormat="yyyy-dd-MM HH:mm:ss"/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn FieldName="ServerName" Header="服务名" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+                    <dxg:GridColumn FieldName="SessionName" Header="Session" Width="Auto" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+                    <dxg:GridColumn FieldName="RemoteAddress" Header="客户端地址" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+                    <dxg:GridColumn FieldName="MsgContent" Header="消息" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+                    <dxg:GridColumn FieldName="MsgType" Header="类型" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+                </dxg:GridControl>
+            </GroupBox>
+            <GroupBox Header="客户端列表" Grid.Row="1" Margin="6">
+                <dxg:GridControl AutoGenerateColumns="AddNew" 
+                                ItemsSource="{Binding ClientList}"
+                                SelectedItem="{Binding SelectedClientInfo}" EnableSmartColumnsGeneration="True" IsFilterEnabled="False">
+                    <dxg:GridControl.TotalSummary>
+                        <dxg:GridSummaryItem FieldName="SessionID" SummaryType="Count" DisplayFormat="数量:{0}"/>
+                    </dxg:GridControl.TotalSummary>
+                    <dxg:GridControl.View>
+                        <dxg:TableView AllowPerPixelScrolling="True" ShowTotalSummary="True" ShowGroupPanel="False" AllowColumnFiltering="False" AllowFilterEditor="False" AutoScrollOnSorting="False" AllowSorting="False" AllowEditing="False" AutoWidth="False"/>
+                    </dxg:GridControl.View>
+                    <dxg:GridColumn FieldName="SessionID" HorizontalHeaderContentAlignment="Center" Header="SessionID" ReadOnly="True" Width="240"/>
+                    <dxg:GridColumn FieldName="IPAddress" Header="地址" AllowSorting="Default" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="140"/>
+                    <dxg:GridColumn FieldName="StartTime" Header="连接时间" ReadOnly="True" Width="140" HorizontalHeaderContentAlignment="Center">
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:DateEditSettings DisplayFormat="yyyy-MM-dd HH:mm:ss" />
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                </dxg:GridControl>
+            </GroupBox>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,23 @@
+﻿<dxr:DXRibbonWindow
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:dxnav="http://schemas.devexpress.com/winfx/2008/xaml/navigation"
+    xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:view="clr-namespace:SuperSocket.View"
+    x:Class="DXApplication24.MainWindow"
+        Title="MainWindow" Height="450" Width="725" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="gridPanel" Grid.Row="0">
+        </Grid>
+        <dxnav:OfficeNavigationBar Grid.Row="1">
+            <dxnav:NavigationBarItem x:Name="serverItem" Content="服务端" MouseLeftButtonUp="serverItem_MouseLeftButtonUp" />
+            <dxnav:NavigationBarItem x:Name="clientItem" Content="客户端" MouseLeftButtonUp="clientItem_MouseLeftButtonUp"/>
+        </dxnav:OfficeNavigationBar>
+        <dxr:RibbonStatusBarControl Grid.Row="2"/>
+    </Grid>
+</dxr:DXRibbonWindow>

@@ -1,0 +1,29 @@
+﻿<dx:DXWindow
+    x:Class="SuperSocket.View.CreateClientView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    Title="创建客户端" Height="162.3" Width="285.16" ShowIcon="False"
+    WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Loaded="DXWindow_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+            <Label Content="服务器地址:" VerticalAlignment="Center" Margin="50,0,0,0" HorizontalAlignment="Center"/>
+            <dxe:TextEdit x:Name="txtServerAddress" Width="120" Margin="6,6,6,6" HorizontalAlignment="Center" 
+                          Text="{Binding IPAddress}"
+                          Mask="(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)" MaskType="RegEx" TabIndex="0"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Label Content="服务器端口:" VerticalAlignment="Center" Margin="50,0,0,0"/>
+            <dxe:TextEdit x:Name="txtServerPort" Width="120" Margin="6,0,6,6" HorizontalAlignment="Center"
+                          Text="{Binding Port}"
+                          Mask="([1-9]\d{0,3})|([1-5]\d{4})|(6[0-4]\d{3})|(65[0-4]\d{2})|(655[0-2]\d)|(6553[0-5])" MaskType="RegEx" TabIndex="2" Height="22" VerticalAlignment="Bottom"/>
+        </StackPanel>
+        <dx:SimpleButton x:Name="btnConfirm" Content="确定" Grid.Row="2" Height="26" Width="55" Margin="0,14,0,12" Command="{Binding ConfirmCommand}" TabIndex="3"/>
+    </Grid>
+</dx:DXWindow>
